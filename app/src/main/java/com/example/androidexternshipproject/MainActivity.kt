@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.room.Room
 import com.example.androidexternshipproject.apiInteractions.APIViewModel
 import com.example.androidexternshipproject.apiInteractions.Result
+import com.example.androidexternshipproject.app.PodcastApp
 import com.example.androidexternshipproject.dbInteractions.CredentialsEntity
 import com.example.androidexternshipproject.dbInteractions.RoomDb
 import com.example.androidexternshipproject.dbInteractions.RoomDbDao
@@ -47,14 +48,16 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+
+                    PodcastApp()
                     //Greeting("Android")
                     //DBTest(applicationContext)
-                    Column(modifier = Modifier.fillMaxSize()) {
-                        Button(onClick = { apiViewModel.search("mars") }) {
-                            Text("CLICK ME")
-                        }
-                        ApiTest(apiViewModel.searchResponse)
-                    }
+//                    Column(modifier = Modifier.fillMaxSize()) {
+//                        Button(onClick = { apiViewModel.search("mars") }) {
+//                            Text("CLICK ME")
+//                        }
+//                        ApiTest(apiViewModel.searchResponse)
+//                    }
 //                    apiViewModel.search("mars")
 
                 }
