@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +26,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import androidx.room.Room
 import com.example.androidexternshipproject.apiInteractions.APIViewModel
 import com.example.androidexternshipproject.apiInteractions.Result
@@ -32,13 +38,18 @@ import com.example.androidexternshipproject.app.PodcastApp
 import com.example.androidexternshipproject.dbInteractions.CredentialsEntity
 import com.example.androidexternshipproject.dbInteractions.RoomDb
 import com.example.androidexternshipproject.dbInteractions.RoomDbDao
+import com.example.androidexternshipproject.model.PodcastData
 import com.example.androidexternshipproject.ui.theme.AndroidExternshipProjectTheme
+import com.example.androidexternshipproject.view.PodcastDataDetails
+import com.example.androidexternshipproject.view.PodcastGrid
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     val apiViewModel by viewModels<APIViewModel>()
+    @OptIn(ExperimentalFoundationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -49,16 +60,16 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 
-                    PodcastApp()
-                    //Greeting("Android")
-                    //DBTest(applicationContext)
+                    PodcastApp()            //for login/register
+                    //Greeting("Android")           //default function
+                    //DBTest(applicationContext)     //testing db insert
 //                    Column(modifier = Modifier.fillMaxSize()) {
 //                        Button(onClick = { apiViewModel.search("mars") }) {
 //                            Text("CLICK ME")
 //                        }
-//                        ApiTest(apiViewModel.searchResponse)
+//                        ApiTest(apiViewModel.searchResponse)        //testing api connection
 //                    }
-//                    apiViewModel.search("mars")
+                    NavigatePage()         //for inside the app functionality
 
                 }
             }
@@ -135,5 +146,31 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 fun GreetingPreview() {
     AndroidExternshipProjectTheme {
         Greeting("Android")
+    }
+}
+
+
+@ExperimentalFoundationApi
+@Composable
+fun NavigatePage(){
+    val navHostController = rememberNavController()
+    NavHost(navController =navHostController,
+        startDestination = "podcast_data"){
+        composable("podcast_data"){
+            PodcastGrid(navController = navHostController)
+        }
+        composable("grid_details/{item}",
+            arguments = listOf(
+                navArgument("item"){
+                    type = NavType.StringType
+                }
+            )
+        ){
+                navBackStackEntry ->
+            navBackStackEntry.arguments?.getString("item")?.let { json->
+                val item = Gson().fromJson(json, PodcastData::class.java)
+                PodcastDataDetails(data = item)
+            }
+        }
     }
 }
