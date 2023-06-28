@@ -30,12 +30,9 @@ class APIViewModel : ViewModel() {
     var errorMessage: String by mutableStateOf("")
     fun search(q:String) {
         viewModelScope.launch {
-            Log.d("a:","TEST1")
             val apiService = APIService.getInstance()
             try {
-                Log.d("a:","TEST2")
                 searchResponse= apiService.getSearch(q).results
-                Log.d("a:","TEST3")
             }
             catch (e: Exception) {
                 errorMessage = e.message.toString()

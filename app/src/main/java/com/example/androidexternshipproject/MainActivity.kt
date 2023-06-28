@@ -2,6 +2,8 @@ package com.example.androidexternshipproject
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Html
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -49,6 +51,7 @@ import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     val apiViewModel by viewModels<APIViewModel>()
+
     @OptIn(ExperimentalFoundationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,8 +62,16 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    apiViewModel.search("")
+                    lateinit var myDao:RoomDbDao
+                    val db: RoomDb =
+                        Room.inMemoryDatabaseBuilder(applicationContext, RoomDb::class.java).build()
+                    myDao = db.roomDbDao()
 
-                    PodcastApp()            //for login/register
+                    PodcastApp(myDao, apiViewModel.searchResponse)            //for login/register
+
+
+
                     //Greeting("Android")           //default function
                     //DBTest(applicationContext)     //testing db insert
 //                    Column(modifier = Modifier.fillMaxSize()) {
@@ -69,108 +80,112 @@ class MainActivity : ComponentActivity() {
 //                        }
 //                        ApiTest(apiViewModel.searchResponse)        //testing api connection
 //                    }
-                    NavigatePage()         //for inside the app functionality
+//                    NavigatePage()         //for inside the app functionality
 
                 }
             }
         }
     }
 }
-@Composable
-fun ApiTest(result: List<Result>){
-    Column(modifier = Modifier.fillMaxSize()) {
-        LazyColumn{
-            if(result.isNotEmpty()){
-                items(result){
-                    Text(it.id)
-                    Text(it.rss)
-                    Spacer(modifier = Modifier.padding(5.dp))
-                }
-            }else{
-                item(){
-                    Text("EMPTY")
-                }
+//@Composable
+//fun ApiTest(result: List<Result>){
+//    Column(modifier = Modifier.fillMaxSize()) {
+//        LazyColumn{
+//            if(result.isNotEmpty()){
+//                items(result){
+//                    Text(it.id)
+//                    Text(it.rss)
+//                    Spacer(modifier = Modifier.padding(5.dp))
+//                }
+//            }else{
+//                item(){
+//                    Text("EMPTY")
+//                }
+//
+//            }
+//
+//        }
+//    }
+//
+//}
+//
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Composable
+//fun DBTest(context: Context){
+//    lateinit var myDao: RoomDbDao
+//    val db: RoomDb =
+//        Room.inMemoryDatabaseBuilder(context, RoomDb::class.java).build()
+//    myDao = db.roomDbDao()
+//    Display(myDao)
+//
+//}
+//
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Composable
+//fun Display(dao: RoomDbDao){
+//    val scope = CoroutineScope(Dispatchers.Main)
+//    Column(modifier = Modifier
+//        .fillMaxSize()
+//        .padding(10.dp)) {
+//        var user by remember{ mutableStateOf("") }
+//        var pass by remember{ mutableStateOf("") }
+//        TextField(value = user, onValueChange = {user = it}, label = {Text("Username")})
+//        TextField(value = pass, onValueChange = {pass = it}, label = {Text("Password")})
+//        Button(onClick = {
+//            val item = CredentialsEntity(email = user, password = pass)
+//            scope.launch(Dispatchers.IO) {
+//                dao.insert(item)
+//            }
+//            user = ""
+//            pass = ""
+//        }) {
+//            Text(text = "Insert to DB")
+//        }
+//    }
+//}
+//
+//@Composable
+//fun Greeting(name: String, modifier: Modifier = Modifier) {
+//    Text(
+//        text = "Hello $name!",
+//        modifier = modifier
+//    )
+//}
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun GreetingPreview() {
+//    AndroidExternshipProjectTheme {
+//        Greeting("Android")
+//    }
+//}
 
-            }
 
-        }
-    }
+//@ExperimentalFoundationApi
+//@Composable
+//fun NavigatePage(){
+//    val navHostController = rememberNavController()
+//    NavHost(navController =navHostController,
+//        startDestination = "podcast_data"){
+//        composable("podcast_data"){
+//            PodcastGrid(navController = navHostController)
+//        }
+//        composable("grid_details/{item}",
+//            arguments = listOf(
+//                navArgument("item"){
+//                    type = NavType.StringType
+//                }
+//            )
+//        ){
+//                navBackStackEntry ->
+//            navBackStackEntry.arguments?.getString("item")?.let { json->
+//                val item = Gson().fromJson(json, PodcastData::class.java)
+//                PodcastDataDetails(data = item)
+//            }
+//        }
+//    }
+//}
 
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DBTest(context: Context){
-    lateinit var myDao: RoomDbDao
-    val db: RoomDb =
-        Room.inMemoryDatabaseBuilder(context, RoomDb::class.java).build()
-    myDao = db.roomDbDao()
-    Display(myDao)
-
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun Display(dao: RoomDbDao){
-    val scope = CoroutineScope(Dispatchers.Main)
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(10.dp)) {
-        var user by remember{ mutableStateOf("") }
-        var pass by remember{ mutableStateOf("") }
-        TextField(value = user, onValueChange = {user = it}, label = {Text("Username")})
-        TextField(value = pass, onValueChange = {pass = it}, label = {Text("Password")})
-        Button(onClick = {
-            val item = CredentialsEntity(email = user, password = pass)
-            scope.launch(Dispatchers.IO) {
-                dao.insert(item)
-            }
-            user = ""
-            pass = ""
-        }) {
-            Text(text = "Insert to DB")
-        }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    AndroidExternshipProjectTheme {
-        Greeting("Android")
-    }
-}
-
-
-@ExperimentalFoundationApi
-@Composable
-fun NavigatePage(){
-    val navHostController = rememberNavController()
-    NavHost(navController =navHostController,
-        startDestination = "podcast_data"){
-        composable("podcast_data"){
-            PodcastGrid(navController = navHostController)
-        }
-        composable("grid_details/{item}",
-            arguments = listOf(
-                navArgument("item"){
-                    type = NavType.StringType
-                }
-            )
-        ){
-                navBackStackEntry ->
-            navBackStackEntry.arguments?.getString("item")?.let { json->
-                val item = Gson().fromJson(json, PodcastData::class.java)
-                PodcastDataDetails(data = item)
-            }
-        }
-    }
+fun stripHtml(html: String?): String {
+    return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY).toString()
 }

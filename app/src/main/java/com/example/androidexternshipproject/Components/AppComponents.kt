@@ -29,6 +29,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -100,11 +101,12 @@ fun HeadingTextComponent(value: String) {
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTextFieldComponent(labelValue: String, painterResource: Painter){
-    val textValue= remember {
-        mutableStateOf("")
-    }
+fun MyTextFieldComponent(textValue: MutableState<String> = mutableStateOf(""), labelValue: String, painterResource: Painter){
+//    val textValue= remember {
+//        mutableStateOf("")
+//    }
 
     OutlinedTextField(
         modifier = Modifier
@@ -115,6 +117,7 @@ fun MyTextFieldComponent(labelValue: String, painterResource: Painter){
         value = textValue.value,
         onValueChange = {textValue.value=it},
         colors = TextFieldDefaults.outlinedTextFieldColors(
+            textColor = White,
             focusedBorderColor = White,
             focusedLabelColor = White,
             cursorColor = White
@@ -129,12 +132,13 @@ fun MyTextFieldComponent(labelValue: String, painterResource: Painter){
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter) {
+fun PasswordTextFieldComponent(password:MutableState<String> = mutableStateOf(""), labelValue: String, painterResource: Painter) {
     val localFocusManager = LocalFocusManager.current
-    val password = remember {
-        mutableStateOf("")
-    }
+//    val password = remember {
+//        mutableStateOf("")
+//    }
     val passwordVisible = remember {
         mutableStateOf(false)
     }
@@ -148,6 +152,7 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter) {
         value = password.value,
         onValueChange = { password.value = it },
         colors = TextFieldDefaults.outlinedTextFieldColors(
+            textColor = White,
             focusedBorderColor = White,
             focusedLabelColor = White,
             cursorColor = White
@@ -193,16 +198,16 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter) {
 }
 
 @Composable
-fun CheckboxComponent(value: String,onTextSelected: (String) -> Unit){
+fun CheckboxComponent(checkedState: MutableState<Boolean> = remember{ mutableStateOf(false) }, value: String, onTextSelected: (String) -> Unit){
     Row (
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(56.dp),
             verticalAlignment = Alignment.CenterVertically,
             ){
-        val checkedState= remember {
-            mutableStateOf(false)
-        }
+//        val checkedState= remember {
+//            mutableStateOf(false)
+//        }
         Checkbox(checked = checkedState.value, onCheckedChange = {checkedState.value=!checkedState
             .value})
         ClickableTextComponent(value = value,onTextSelected)
@@ -259,9 +264,10 @@ fun ClickableTextComponent(value: String,onTextSelected:(String)->Unit){
 }
 
 @Composable
-fun ButtonComponent(value: String) {
+fun ButtonComponent(value: String, onClickFunc: () -> Unit) {
     Button(
-        onClick = { /*TODO*/ },
+//        onClick = { /*TODO*/ },
+        onClick = onClickFunc,
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(48.dp),

@@ -38,7 +38,7 @@ import retrofit2.http.Query
 
 interface APIService{
     @GET("search")
-    suspend fun getSearch(@Query("q") query:String) :ResponseDataClass
+    suspend fun getSearch(@Query("q") query:String = "") :ResponseDataClass
     //further parameters would be modified here, along with more functions
 
     companion object {
