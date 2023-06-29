@@ -1,6 +1,5 @@
 package com.example.androidexternshipproject.app
 
-import android.content.Context
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
@@ -16,7 +15,7 @@ import com.example.androidexternshipproject.screens.SignUpScreen
 import com.example.androidexternshipproject.screens.TermsAndConditionsScreen
 
 @Composable
-fun PodcastApp(dao: RoomDbDao, results: List<Result>, context: Context) {
+fun PodcastApp(dao: RoomDbDao, results: List<Result>) {
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -34,7 +33,7 @@ fun PodcastApp(dao: RoomDbDao, results: List<Result>, context: Context) {
                         LoginScreen(dao)
                     }
                     is Screen.PodcastHolderScreen->{
-                        PodcastHolderScreen(results, context)
+                        PodcastHolderScreen(results)
                     }
                 }
                 
