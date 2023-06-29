@@ -1,5 +1,6 @@
 package com.example.androidexternshipproject.screens
 
+import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,11 +23,12 @@ import com.example.androidexternshipproject.navigation.Screen
 import com.example.androidexternshipproject.navigation.SystemBackButtonHandler
 import com.example.androidexternshipproject.view.PodcastDataDetails
 import com.example.androidexternshipproject.view.PodcastGrid
+import com.example.androidexternshipproject.view.PodcastPlayer
 import com.google.gson.Gson
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PodcastHolderScreen(results: List<Result>){
+fun PodcastHolderScreen(results: List<Result>, context: Context){
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -52,7 +54,8 @@ fun PodcastHolderScreen(results: List<Result>){
 //                    PodcastDataDetails(data = item)
 //                }
                 navBackStackEntry.arguments?.getInt("item")?.let{
-                    PodcastDataDetails(data = results[it])
+//                    PodcastDataDetails(data = results[it])
+                      PodcastPlayer(podcast = results[it], context = context)
                 }
             }
         }

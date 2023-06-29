@@ -68,7 +68,7 @@ class MainActivity : ComponentActivity() {
                         Room.inMemoryDatabaseBuilder(applicationContext, RoomDb::class.java).build()
                     myDao = db.roomDbDao()
 
-                    PodcastApp(myDao, apiViewModel.searchResponse)            //for login/register
+                    PodcastApp(myDao, apiViewModel.searchResponse, applicationContext)            //for login/register
 
 
 
