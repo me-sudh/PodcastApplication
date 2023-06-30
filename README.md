@@ -6,6 +6,6 @@ SYED JAWAAD LATEEF - 20BCT0034
 SUDHANSHU CHAUHAN - 20BCI0035  
 SAMRUDDHI DHAVALE - 20BCT0074  
 
-Video Link:  
+Video Link:  https://youtu.be/Y0NohaFKn3M
 
-Assignment Links:  
+Assignment Links: 
