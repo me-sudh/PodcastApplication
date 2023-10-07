@@ -1,6 +1,6 @@
-# AndroidExternshipProject  
+# AndroidProject  
 
-Project made for Android Development with Kotlin Externship under SmartInternz by Smart Bridge  
+Project made for Android Development with Kotlin  
 Made By:  
 SUDHANSHU CHAUHAN - 20BCI0035  
 SYED JAWAAD LATEEF - 20BCT0034  
