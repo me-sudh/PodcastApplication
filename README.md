@@ -8,7 +8,7 @@ SAMRUDDHI DHAVALE - 20BCT0074
 
 Video Link:  https://youtu.be/Y0NohaFKn3M
 
-<img src="https://github.com/me-sudh/PodcastApplication/assets/97822287/aa63e226-8838-452c-837c-1fc544119a59" width="100" height="400">
+<img src="https://github.com/me-sudh/PodcastApplication/assets/97822287/aa63e226-8838-452c-837c-1fc544119a59" width="300" height="600">
 
 ![Screenshot_20231005_210700_AndroidExternshipProject](https://github.com/me-sudh/PodcastApplication/assets/97822287/aa63e226-8838-452c-837c-1fc544119a59)
 ![Screenshot_20231005_210706_AndroidExternshipProject](https://github.com/me-sudh/PodcastApplication/assets/97822287/61246053-dffd-4dcb-9be2-b05c29594f9a)
